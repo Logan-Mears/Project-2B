@@ -154,6 +154,7 @@ struct Trie {
 
     // Setup variables for the trie itself
     TrieNode* root;
+    int numEnTries; // Wordplay useful to distinguish from numEntries in hash table but mostly for my own amusement
 
     // Constructor for Trie
     Trie() {
@@ -162,6 +163,26 @@ struct Trie {
 
     // Destructor for Trie
     ~Trie() {
-        // Destructor to free memory (Unknown if needed again)
+        // Destructor (Unknown if needed again)
+    }
+
+    // SEARCH IMPLEMENTATION ---------------------------------------------------------------------------------------------------------------------------------------------------
+    PERSON* search(const string& key) {
+        TrieNode* currentNode = root;
+
+        // Traverse through trie using key characters to find the corresponding nodes
+        for (char c : key) {
+            char charIndex = c;
+            if (currentNode->children[charIndex] == nullptr) {
+                return nullptr; // Key not found in trie
+            }
+            currentNode = currentNode->children[charIndex]; // If found, move to the next node
+        }
+
+        // After traversing the key, check if at a valid end of an ID/key to return the associated PERSON object
+        if (currentNode->isEndID) {
+            return currentNode->pers; // Return pointer to PERSON object if found
+        }
+        return nullptr; // Key not found as a valid ID in trie(?)
     }
 };
