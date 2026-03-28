@@ -74,4 +74,18 @@ struct HashTable {
         numEntries = 0;
         // TODO: Implement resize function so that table can be initilized with null pointers
     }
+
+    // Destructor for HashTable
+    ~HashTable() {
+        for (int i = 0; i < capacity; i++) {
+            HashEntry* entry = table[i];
+            while (entry != nullptr) {
+                HashEntry* temp = entry;
+                entry = entry->next;
+                delete temp;
+            }
+        }
+    }
+
+    
 };
