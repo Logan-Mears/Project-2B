@@ -87,5 +87,18 @@ struct HashTable {
         }
     }
 
-    
+    void addEntry(const string& key, PERSON* value) {
+        // Hash the key to get table index
+        // int hashIndex = hashFunc(key);   TODO: add hashing function which actually returns the hash index based on the key and capacity of the table etc etc
+        HashEntry* currentEntry = table[hashIndex]; // Note to self: hashindex will be fixed when above line is finished 
+
+        // Insert new entry at the beginning of the list for the newly hashed index
+        HashEntry* newEntry = new HashEntry(key, value);
+        newEntry->next = table[hashIndex]; // nts: as above
+        table[hashIndex] = newEntry; // nts: as above
+        numEntries++;
+
+        // Check load factor and resize if necessary
+        // TODO: add load factor check and resize function (NTS: research required)
+    }
 };
