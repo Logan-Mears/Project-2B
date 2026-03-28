@@ -44,3 +44,34 @@ struct PERSON {
         cout << "Occupation: " << occupation << endl;
     }
 };
+
+
+
+// HASH TABLE STRUCTURE =========================================================================================================================================================
+struct HashTable {
+
+    // Sub-structure for each entry within the table
+    struct HashEntry {
+        string key; // NOTE TO SELF: DO NOT USE INDEX, USE USER ID!
+        PERSON* value;
+        HashEntry* next; // Pointer to the next entry in case of table collisions
+        // Constructor for HashEntry
+        HashEntry(const string& k, PERSON* v) {
+            key = k;
+            value = v;
+            next = nullptr;
+        }
+    };
+
+    // Setup variables for the hash table itself
+    vector<HashEntry*> table; // Vector of pointers to HashEntry objects
+    int numEntries; // Number of entries currently in the hash table
+    int capacity; // Total capacity of the hash table
+
+    // Constructor for HashTable
+    HashTable(int cap) {
+        capacity = cap;
+        numEntries = 0;
+        // TODO: Implement resize function so that table can be initilized with null pointers
+    }
+};
