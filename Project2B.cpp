@@ -52,9 +52,9 @@ struct HashTable {
 
     // Sub-structure for each entry within the table
     struct HashEntry {
-        string key; // NOTE TO SELF: DO NOT USE INDEX, USE USER ID!
+        string key;
         PERSON* value;
-        HashEntry* next; // Pointer to the next entry in case of table collisions
+        HashEntry* next; // Pointer to the next entry in case of table collisions (hopefully)
         // Constructor for HashEntry
         HashEntry(const string& k, PERSON* v) {
             key = k;
@@ -65,14 +65,14 @@ struct HashTable {
 
     // Setup variables for the hash table itself
     vector<HashEntry*> table; // Vector of pointers to HashEntry objects
-    int numEntries; // Number of entries currently in the hash table
-    int capacity; // Total capacity of the hash table
+    int numEntries;           // Number of entries currently in the hash table
+    int capacity;             // Total capacity of the hash table
 
     // Constructor for HashTable
     HashTable(int cap) {
         capacity = cap;
         numEntries = 0;
-        // TODO: Implement resize function so that table can be initilized with null pointers
+        //table.resize(capacity, nullptr);
     }
 
     // Destructor for HashTable
@@ -89,17 +89,17 @@ struct HashTable {
 
     void addEntry(const string& key) {
         // Hash the key to get table index
-        // int hashIndex = hashFunc(key);   TODO: add hashing function which actually returns the hash index based on the key and capacity of the table etc etc
-        HashEntry* currentEntry = table[hashIndex]; // Note to self: hashindex will be fixed when above line is finished 
+        // int hashIndex = hashFunc(key);   
+        HashEntry* currentEntry = table[hashIndex]; 
 
         // Insert new entry at the beginning of the list for the newly hashed index
-        HashEntry* newEntry = new HashEntry(key, value);
+        HashEntry* newEntry = new HashEntry(key);
         newEntry->next = table[hashIndex]; // nts: as above
         table[hashIndex] = newEntry; // nts: as above
         numEntries++;
 
         // Check load factor and resize if necessary
-        // TODO: add load factor check and resize function (NTS: research required)
+        
     }
 
     
@@ -107,8 +107,8 @@ struct HashTable {
     // SEARCH IMPLEMENTATION ---------------------------------------------------------------------------------------------------------------------------------------------------
     PERSON* search(const string& key) {
         // Hash the key to get table index
-        // int hashIndex = hashFunc(key);   TODO: add hashing function which actually returns the hash index based on the key and capacity of the table etc etc
-        HashEntry* currentEntry = table[hashIndex]; // Note to self: hashindex will be fixed when above line is finished (again)
+        // int hashIndex = hashFunc(key);
+        HashEntry* currentEntry = table[hashIndex]; 
 
         // Traverse the linked list at the hashed index to find the entry with the matching key
         while (currentEntry != nullptr) {
