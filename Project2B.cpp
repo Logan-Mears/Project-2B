@@ -53,12 +53,12 @@ struct HashTable {
     // Sub-structure for each entry within the table
     struct HashEntry {
         string key;
-        PERSON* value;
+        PERSON* pers;
         HashEntry* next; // Pointer to the next entry in case of table collisions (hopefully)
         // Constructor for HashEntry
         HashEntry(const string& k, PERSON* v) {
             key = k;
-            value = v;
+            pers = v;
             next = nullptr;
         }
     };
@@ -113,7 +113,7 @@ struct HashTable {
         // Traverse the linked list at the hashed index to find the entry with the matching key
         while (currentEntry != nullptr) {
             if (currentEntry->key == key) {
-                return currentEntry->value; // Return pointer to PERSON object if found
+                return currentEntry->pers; // Return pointer to PERSON object if found
             }
             currentEntry = currentEntry->next; // Move to next entry
         }
@@ -125,3 +125,43 @@ struct HashTable {
 
 
 // TRIE STRUCTURE ==============================================================================================================================================================
+struct Trie {
+
+    // Set up substructure for each node in the trie
+    struct TrieNode {
+        TrieNode* children[26+26+10]; // Assuming uppercase and lowercase letters a-z + 10 digits 0-9
+        bool isEndID;                 // Flag to indicate end of a valid id (will be key)
+        PERSON* pers;                // Pointer to PERSON object associated with the key (if this node is the end of a key)
+
+        // Constructor for TrieNode
+        TrieNode() {
+            for (int i = 0; i < 62; i++) {
+                children[i] = nullptr;
+            }
+            isEndID = false;
+            pers = nullptr;
+        }
+
+        // Destructor for TrieNode (Unknown if needed)
+        ~TrieNode() {
+            for (int i = 0; i < 62; i++) {
+                if (children[i] != nullptr) {
+                    delete children[i];
+                }
+            }
+        }  
+    };
+
+    // Setup variables for the trie itself
+    TrieNode* root;
+
+    // Constructor for Trie
+    Trie() {
+        root = new TrieNode(); 
+    }
+
+    // Destructor for Trie
+    ~Trie() {
+        // Destructor to free memory (Unknown if needed again)
+    }
+};
