@@ -1,4 +1,6 @@
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include <string>
 #include <vector>
 using namespace std;
@@ -217,3 +219,56 @@ struct Trie {
         return nullptr; // Key not found as a valid ID in trie(?)
     }
 };
+
+
+
+
+
+// GET CSV CONTENTS ============================================================================================================================================================
+vector<PERSON*> getCSVContents(const string& filename) {
+    vector<PERSON*> people;
+    ifstream file(filename);
+    // Make sure time isn't wasted if file isn't openable for some reason
+    if (!file.is_open()) {
+        cerr << "Error opening file: " << filename << endl;
+        return people; // Return empty vector if file cannot be opened
+    }
+    string line;
+    getline(file, line); // Skip header line with column names
+
+    // Read each line of the CSV file and create PERSON objects using each row's data
+    while (getline(file, line)) {
+        PERSON newPerson;
+
+        // Use stringstream to parse the line into individual fields based on comma delimiters
+        stringstream ss(line);
+        string column;
+        vector<string> columns;
+        string currentColumn;
+        for (char c : line) {
+            if (c == ',' && !currentColumn.empty()) {
+                columns.push_back(currentColumn);
+                currentColumn.clear();
+            } else {
+                currentColumn += c;
+            }
+        }
+
+        // Assign column names to each column
+        if (columns.size() >= 9) {
+            newPerson.index = columns[0];      // Error here ************
+            newPerson.userId = columns[1];     // Error here ************
+            newPerson.first = columns[2];
+            newPerson.last = columns[3];
+            newPerson.sex = columns[4];
+            newPerson.email = columns[5];
+            newPerson.phone = columns[6];
+            newPerson.dob = columns[7];
+            newPerson.occupation = columns[8];
+        }
+    }
+
+    file.close();
+    cout << "Number of people processed: " << people.size() << endl; // Just for testing to make sure >= 100,000 people are processed as specified in the project requirements
+    return people;
+}
