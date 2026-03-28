@@ -87,7 +87,7 @@ struct HashTable {
         }
     }
 
-    void addEntry(const string& key, PERSON* value) {
+    void addEntry(const string& key) {
         // Hash the key to get table index
         // int hashIndex = hashFunc(key);   TODO: add hashing function which actually returns the hash index based on the key and capacity of the table etc etc
         HashEntry* currentEntry = table[hashIndex]; // Note to self: hashindex will be fixed when above line is finished 
@@ -101,4 +101,27 @@ struct HashTable {
         // Check load factor and resize if necessary
         // TODO: add load factor check and resize function (NTS: research required)
     }
+
+    
+
+    // SEARCH IMPLEMENTATION ---------------------------------------------------------------------------------------------------------------------------------------------------
+    PERSON* search(const string& key) {
+        // Hash the key to get table index
+        // int hashIndex = hashFunc(key);   TODO: add hashing function which actually returns the hash index based on the key and capacity of the table etc etc
+        HashEntry* currentEntry = table[hashIndex]; // Note to self: hashindex will be fixed when above line is finished (again)
+
+        // Traverse the linked list at the hashed index to find the entry with the matching key
+        while (currentEntry != nullptr) {
+            if (currentEntry->key == key) {
+                return currentEntry->value; // Return pointer to PERSON object if found
+            }
+            currentEntry = currentEntry->next; // Move to next entry
+        }
+        return nullptr; // Return nullptr if key not found(?)
+    }
+
 };
+
+
+
+// TRIE STRUCTURE ==============================================================================================================================================================
