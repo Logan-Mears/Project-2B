@@ -124,6 +124,8 @@ struct HashTable {
 
 
 
+
+
 // TRIE STRUCTURE ==============================================================================================================================================================
 struct Trie {
 
@@ -165,6 +167,26 @@ struct Trie {
     ~Trie() {
         // Destructor (Unknown if needed again)
     }
+
+    void addEnTrie(const string& key, PERSON* pers) {
+        TrieNode* currentNode = root;
+
+        // Traverse through trie using key characters to find the corresponding nodes
+        for (char c : key) {
+            char charIndex = c;
+            if (currentNode->children[charIndex] == nullptr) {
+                currentNode->children[charIndex] = new TrieNode(); // Create new node if it doesn't exist
+            }
+            currentNode = currentNode->children[charIndex]; // Move to the next node
+        }
+
+        // After traversing the key, mark the end of the ID/key and store the associated PERSON object
+        currentNode->isEndID = true;
+        currentNode->pers = pers; // Store pointer to PERSON object at the end node
+        numEnTries++;
+    }
+
+
 
     // SEARCH IMPLEMENTATION ---------------------------------------------------------------------------------------------------------------------------------------------------
     PERSON* search(const string& key) {
