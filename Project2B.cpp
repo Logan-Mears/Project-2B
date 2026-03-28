@@ -186,7 +186,16 @@ struct Trie {
         numEnTries++;
     }
 
-
+    void populateTrie(TrieNode* node, vector<PERSON*>& people) {
+        if (node->isEndID == true && node->pers != nullptr) {
+            people.push_back(node->pers); // Add PERSON pointer to vector if this node is the end of a valid ID/key
+        }
+        for (int i = 0; i < 62; i++) {
+            if (node->children[i] != nullptr) {
+                populateTrie(node->children[i], people); // Recursively traverse child nodes to pop entire trie
+            }
+        }
+    }
 
     // SEARCH IMPLEMENTATION ---------------------------------------------------------------------------------------------------------------------------------------------------
     PERSON* search(const string& key) {
