@@ -272,3 +272,38 @@ vector<PERSON*> getCSVContents(const string& filename) {
     cout << "Number of people processed: " << people.size() << endl; // Just for testing to make sure >= 100,000 people are processed as specified in the project requirements
     return people;
 }
+
+
+
+
+
+// MAIN FUNCTION / ACTUAL TESTING ==================================================================================================================================================
+int main() {
+    // Formatting to make it look pretty (I really don't want to create a separate GUI so will likely use console output for testing and demo purposes)
+    cout << "----- Personal Detail Lookup System with Data Structure Comparison: Project 2 COP3530 -----" << endl;
+    cout << "Hash Tables vs. Tries" << endl << endl << endl;
+    cout << "Instructions:"<< endl << "Move a .csv file with the format described in the README.md file into the working directory." << endl 
+        << "Then, enter the filename, including '.csv': " << endl;
+    string filename;
+    cin >> filename;
+    cout << "Processing file: " << filename << "..." << endl << "This may take a moment..." << endl;
+    vector<PERSON*> people = getCSVContents(filename);
+    // As per project requirements, there must be 100,000 people in the csv file, so this check is unnecessary besides this specification
+    if (people.size() < 100000) {
+        cout << "Heads Up: Expected at least 100,000 people in the CSV file. Found only " << people.size() << "." << endl;
+        // Allow program to continue since this might be intentional for testing
+    }
+    // Prompt for user ID, this will be key for lookup in both DSs
+    cout << "Enter a user ID to look up: " << endl;
+    string userId;
+    cin >> userId;
+
+
+
+    // Create and Test ID Lookup Using Hash Table --------------------------------------------------------------------------------------------------------------------------------
+    cout << "----- ID Lookup Using Hash Table -----" << endl;
+    
+    // Create and Test ID Lookup Using Trie --------------------------------------------------------------------------------------------------------------------------------------
+    cout << "----- ID Lookup Using Trie -----" << endl;
+    
+}

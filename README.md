@@ -5,6 +5,15 @@ This project searches through incredibly large data sets of personal details (na
 This project is useful as it compares the efficiency of hash tables vs. tries when attempting to search differing sizes of databases, giving a practical demonstration of the sizes at which each data structure is most useful while also being able to be used in the real world in a variety of ways, such as customer/employee information at businesses, health records, etc.
 
 # How To
+Follow the instructions in the prompt. The following is the format the .csv file must be in:
+	Index,User Id,First Name,Last Name,Sex,Email,Phone,Date of birth,Job Title
+For a large amount of free samples in this format to test, visit the link below.
+
+
+
+
+
+
 
 
 
