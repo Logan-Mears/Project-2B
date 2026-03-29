@@ -469,4 +469,11 @@ int main() {
     } else {
         cout << "The hash table and trie had the same performance for adding entries and searching for the user ID." << "Comparison:" << stoi(timeHashVector[1]) << " vs " << stoi(timeTrieVector[1]) << endl;
     }
+
+
+
+    for (PERSON* person : people) {
+        delete person; // Clean up 
+    }
+    return 0;
 }
