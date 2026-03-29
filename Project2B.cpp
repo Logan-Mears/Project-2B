@@ -9,8 +9,7 @@ using namespace std;
 
 
 // PERSON STRUCT ===============================================================================================================================================================
-//All rows from CSV files will be processed as a PERSON struct, which will be stored in a vector of PERSON structs. 
-// Top line of CSV: Index,User Id,First Name,Last Name,Sex,Email,Phone,Date of birth,Job Title
+// All rows from CSV files will be processed as a PERSON struct, which will be stored in a vector of PERSON structs. 
 struct PERSON {
     int index;
     int userId;
@@ -51,6 +50,8 @@ struct PERSON {
 
 
 
+
+
 // HASH TABLE STRUCTURE =========================================================================================================================================================
 struct HashTable {
 
@@ -72,11 +73,28 @@ struct HashTable {
     int numEntries;           // Number of entries currently in the hash table
     int capacity;             // Total capacity of the hash table
 
+    void resize() { 
+        int newCapacity = capacity * 2; // Double the capacity when resizing for now
+        vector<HashEntry*> newTable(newCapacity, nullptr); // Create a new table with the new capacity
+
+        // Rehash all existing entries into the new table
+        // TODO: IMPLEMENT AFTER HASH FUNCTION
+
+        // Update the hash table to be the new table
+        table = newTable;
+    }
+
     // Constructor for HashTable
     HashTable(int cap) {
         capacity = cap;
         numEntries = 0;
-        //table.resize(capacity, nullptr);
+        table.resize(capacity, nullptr);
+    }
+    // Default Constructor w/ default capacity of 100,000 (as per project requirements)
+    HashTable() { 
+        capacity = 100000; 
+        numEntries = 0; 
+        table.resize(capacity, nullptr); // Initialize the hash table with null pointers
     }
 
     // Destructor for HashTable
@@ -369,7 +387,6 @@ int main() {
     Trie newTrie;
     vector<string> timeTrieVector = trie_measured(newTrie);
     // Display results of the search & time taken (if found, print the person's details; if not found, indicate that the user ID was not found)
-
 
 
 
