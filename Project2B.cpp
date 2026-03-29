@@ -302,8 +302,25 @@ int main() {
 
     // Create and Test ID Lookup Using Hash Table --------------------------------------------------------------------------------------------------------------------------------
     cout << "----- ID Lookup Using Hash Table -----" << endl;
-    
+    HashTable newHashTable;
+    // TODO: INSERT CODE TO CALL PERFORMANCE EVALUATION FUNTION HERE
+    // Measure time taken to add all entries to the hash table
+    // Measure time taken to search for a specific user ID in the hash table
+    // Display results of the search (if found, print the person's details; if not found, indicate that the user ID was not found)
+
+
     // Create and Test ID Lookup Using Trie --------------------------------------------------------------------------------------------------------------------------------------
     cout << "----- ID Lookup Using Trie -----" << endl;
+    Trie newTrie;
+    // TODO: INSERT CODE TO CALL PERFORMANCE EVALUATION FUNTION HERE
+    // Measure time taken to add all entries to the trie
+    // Measure time taken to search for a specific user ID in the trie
+    // Display results of the search (if found, print the person's details; if not found, indicate that the user ID was not found)
+
+
+    // Comparison of Hash Table and Trie Performance -----------------------------------------------------------------------------------------------------------------------------
+    cout << "----- Performance Comparison -----" << endl;
+    // Reiterate the time taken for both the hash table and trie for adding entries and searching for a specific user ID
+    // Discuss any observed differences in performance between the two data structures based on the results obtained from the tests above (h or t was faster)
     
 }
