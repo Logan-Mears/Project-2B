@@ -311,8 +311,6 @@ vector<PERSON*> getCSVContents(const string& filename) {
 
     // Read each line of the CSV file and create PERSON objects using each row's data
     while (getline(file, line)) {
-        PERSON newPerson;
-
         // Use stringstream to parse the line into individual fields based on comma delimiters
         stringstream ss(line);
         string column;
@@ -323,7 +321,7 @@ vector<PERSON*> getCSVContents(const string& filename) {
         }
         if (columns.size() >= 9) {
             // Create a new PERSON object using the parsed columns and add a ptr to it to the vector of people
-            newPerson = PERSON(stoi(columns[0]), stoi(columns[1]), columns[2], columns[3], columns[4], columns[5], columns[6], columns[7], columns[8]);
+            PERSON* newPerson = new PERSON(stoi(columns[0]), stoi(columns[1]), columns[2], columns[3], columns[4], columns[5], columns[6], columns[7], columns[8]);
             people.push_back(new PERSON(newPerson));
         }
     }
