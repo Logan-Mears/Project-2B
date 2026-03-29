@@ -99,8 +99,20 @@ struct HashTable {
         int newCapacity = capacity * 2; // Double the capacity when resizing for now
         vector<HashEntry*> newTable(newCapacity, nullptr); // Create a new table with the new capacity
 
-        // Rehash all existing entries into the new table
-        // TODO: IMPLEMENT AFTER HASH FUNCTION
+        // Rehash all existing entries into the new table: block recommended by VSCode suggestion, slightly modified
+        for (int i = 0; i < capacity; i++) {
+            HashEntry* entry = table[i];
+            while (entry != nullptr) {
+                int newHashIndex = hashFunc(entry->key) % newCapacity; 
+                HashEntry* nextEntry = entry->next; // Store pointer to the next entry BEFORE rehashing
+
+                // Insert the entry into the new table at the new hash index (handling collisions by chaining as described in reference 5 video of the report)
+                entry->next = newTable[newHashIndex]; // Point to the current head of the list at the new index
+                newTable[newHashIndex] = entry; // Update the head of the list at the new index to be this entry
+
+                entry = nextEntry; // Move to the next entry in the old table
+            }
+        }
 
         // Update the hash table to be the new table
         table = newTable;

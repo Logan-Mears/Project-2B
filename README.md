@@ -9,21 +9,6 @@ Follow the instructions in the prompt. The following is the format the .csv file
 	Index,User Id,First Name,Last Name,Sex,Email,Phone,Date of birth,Job Title
 For a large amount of free samples in this format to test, visit the link below.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Sample Data Sources
 Sample data set obtained from: https://www.datablist.com/learn/csv/download-sample-csv-files#download-customers-sample-csv-files 
 
