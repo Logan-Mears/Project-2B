@@ -73,6 +73,15 @@ struct HashTable {
     int numEntries;           // Number of entries currently in the hash table
     int capacity;             // Total capacity of the hash table
 
+    int hashFunc(const string& key) {
+        // Simple hash function using polynomial rolling hash method: recommended by VS Code
+        int hashValue = 0;
+        for (char c : key) {
+            hashValue = (hashValue * 31 + c) % capacity; 
+        }
+        return hashValue;
+    }
+
     void resize() { 
         int newCapacity = capacity * 2; // Double the capacity when resizing for now
         vector<HashEntry*> newTable(newCapacity, nullptr); // Create a new table with the new capacity
@@ -109,15 +118,15 @@ struct HashTable {
         }
     }
 
-    void addEntry(const string& key) {
+    void addEntry(const string& key, PERSON* pers) {
         // Hash the key to get table index
-        // int hashIndex = hashFunc(key);   
+        int hashIndex = hashFunc(key);   
         HashEntry* currentEntry = table[hashIndex]; 
 
         // Insert new entry at the beginning of the list for the newly hashed index
-        HashEntry* newEntry = new HashEntry(key);
-        newEntry->next = table[hashIndex]; // nts: as above
-        table[hashIndex] = newEntry; // nts: as above
+        HashEntry* newEntry = new HashEntry(key, pers);
+        newEntry->next = table[hashIndex]; 
+        table[hashIndex] = newEntry; 
         numEntries++;
 
         // Check load factor and resize if necessary
@@ -129,7 +138,7 @@ struct HashTable {
     // SEARCH IMPLEMENTATION ---------------------------------------------------------------------------------------------------------------------------------------------------
     PERSON* search(const string& key) {
         // Hash the key to get table index
-        // int hashIndex = hashFunc(key);
+        int hashIndex = hashFunc(key);
         HashEntry* currentEntry = table[hashIndex]; 
 
         // Traverse the linked list at the hashed index to find the entry with the matching key
