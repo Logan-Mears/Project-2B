@@ -427,6 +427,10 @@ int main() {
     HashTable newHashTable;
     vector<string> timeHashVector = hash_measured(newHashTable, userId, people);
     // Display results of the search & time taken (if found, print the person's details; if not found, indicate that the user ID was not found)
+    cout << "Hash Table Results:" << endl;
+    cout << "Person found: " << timeHashVector[0] << endl;
+    cout << "Time taken (seconds): " << stoi(timeHashVector[1])*(10^6) << endl << endl; // Reports in microseconds, so *10^6
+
 
 
 
@@ -435,12 +439,20 @@ int main() {
     Trie newTrie;
     vector<string> timeTrieVector = trie_measured(newTrie, userId, people);
     // Display results of the search & time taken (if found, print the person's details; if not found, indicate that the user ID was not found)
+    cout << "Trie Results:" << endl;
+    cout << "Person found: " << timeTrieVector[0] << endl;
+    cout << "Time taken (seconds): " << stoi(timeTrieVector[1])*(10^6) << endl << endl; // Reports in microseconds, so *10^6
 
 
 
     // Comparison of Hash Table and Trie Performance -----------------------------------------------------------------------------------------------------------------------------
     cout << "----- Performance Comparison -----" << endl;
-    // Reiterate the time taken for both the hash table and trie for adding entries and searching for a specific user ID
-    // Discuss any observed differences in performance between the two data structures based on the results obtained from the tests above (h or t was faster)
-    
+    // Reiterate the time taken for both the hash table and trie for adding entries and searching for a specific user ID & compare
+    if (stoi(timeHashVector[1]) < stoi(timeTrieVector[1])) {
+        cout << "The hash table was faster than the trie for adding entries and searching for the user ID." << endl << "Comparison:" << stoi(timeHashVector[1]) << " vs " << stoi(timeTrieVector[1]) << endl;
+    } else if (stoi(timeHashVector[1]) > stoi(timeTrieVector[1])) {
+        cout << "The trie was faster than the hash table for adding entries and searching for the user ID." << endl << "Comparison:" << stoi(timeTrieVector[1]) << " vs " << stoi(timeHashVector[1]) << endl;
+    } else {
+        cout << "The hash table and trie had the same performance for adding entries and searching for the user ID." << "Comparison:" << stoi(timeHashVector[1]) << " vs " << stoi(timeTrieVector[1]) << endl;
+    }
 }
