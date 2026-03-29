@@ -114,7 +114,8 @@ struct HashTable {
         }
 
         // Update the hash table to be the new table
-        table = newTable;
+        table = std::move(newTable); // use move instead of copy for efficiency as per VSCode suggestion
+        capacity = newCapacity;
     }
 
     // Constructor for HashTable
@@ -273,23 +274,25 @@ struct Trie {
     }
 
     // SEARCH IMPLEMENTATION ---------------------------------------------------------------------------------------------------------------------------------------------------
-    PERSON* search(const string& key) {
-    TrieNode* currentNode = root;
-    for (char c : key) {
-        int index = getIndex(c);
-        if (index == -1) continue; // Skip invalid chars
-        
-        if (index < 0 || index >= 62 || currentNode->children[index] == nullptr) {
-            return nullptr;
+    PERSON* search(const string& key) { // Modded to return a pointer to the PERSON object associated with the key if found, or nullptr if not found
+        TrieNode* currentNode = root;
+        for (char c : key) {
+            int index = getIndex(c);
+            if (index == -1) {
+                return nullptr; // Invalid character means key cannot exist in trie
+            }
+            
+            if (index < 0 || index >= 62 || currentNode->children[index] == nullptr) {
+                return nullptr;
+            }
+            currentNode = currentNode->children[index];
         }
-        currentNode = currentNode->children[index];
+        
+        if (currentNode->isEndID) {
+            return currentNode->pers;
+        }
+        return nullptr;
     }
-    
-    if (currentNode->isEndID) {
-        return currentNode->pers;
-    }
-    return nullptr;
-}
 };
 
 
@@ -389,7 +392,11 @@ vector<string> hash_measured(HashTable& hashTable, string userID, vector<PERSON*
     }
     // Search for a specific user ID in the hash table
     PERSON* foundPers = hashTable.search(userID);
-    hash_results.push_back(foundPers->first + " " + foundPers->last); // Just for testing to make sure the search is working; will likely want to print more details in the final version
+    if (foundPers != nullptr) {
+        hash_results.push_back(foundPers->first + " " + foundPers->last); // Just for testing to make sure the search is working; will likely want to print more details in the final version
+    } else {
+        hash_results.push_back("User ID not found"); // Handles unfound/nullptr
+    }
     hash_results.push_back(to_string(sw())); // Add the time taken for the operations to the results vector; will be used for comparison with trie results
     return hash_results;
 }
@@ -403,7 +410,11 @@ vector<string> trie_measured(Trie& trie, string userID, vector<PERSON*>& people)
     }
     // Measure time taken to search for a specific user ID in the trie
     PERSON* foundPers = trie.search(userID);
-    trie_results.push_back(foundPers->first + " " + foundPers->last); // Ditto
+    if (foundPers != nullptr) {
+        trie_results.push_back(foundPers->first + " " + foundPers->last);
+    } else {
+        trie_results.push_back("User ID not found"); // Handles unfound/nullptr
+    }
     trie_results.push_back(to_string(sw())); // Add the time taken for the operations to the results vector; will be used for comparison with hash table results
     return trie_results;
 }
@@ -443,7 +454,7 @@ int main() {
     cout << "Hash Table Results:" << endl;
     cout << "Person found: " << timeHashVector[0] << endl;
     double timeInSeconds = stod(timeHashVector[1]) / 1000000.0;
-    cout << "Time taken (seconds): " << timeInSeconds << endl;
+    cout << "Time taken (seconds): " << timeInSeconds << endl << endl;
 
 
 
@@ -456,19 +467,21 @@ int main() {
     cout << "Trie Results:" << endl;
     cout << "Person found: " << timeTrieVector[0] << endl;
     double timeInSecondsTrie = stod(timeTrieVector[1]) / 1000000.0;
-    cout << "Time taken (seconds): " << timeInSecondsTrie << endl << endl; // Reports in microseconds, so *10^6
+    cout << "Time taken (seconds): " << timeInSecondsTrie << endl << endl; // Reports in microseconds, so /1000000
 
 
 
     // Comparison of Hash Table and Trie Performance -----------------------------------------------------------------------------------------------------------------------------
     cout << "----- Performance Comparison -----" << endl;
     // Reiterate the time taken for both the hash table and trie for adding entries and searching for a specific user ID & compare
-    if (stoi(timeHashVector[1]) < stoi(timeTrieVector[1])) {
-        cout << "The hash table was faster than the trie for adding entries and searching for the user ID." << endl << "Comparison:" << stoi(timeHashVector[1]) << " vs " << stoi(timeTrieVector[1]) << endl;
-    } else if (stoi(timeHashVector[1]) > stoi(timeTrieVector[1])) {
-        cout << "The trie was faster than the hash table for adding entries and searching for the user ID." << endl << "Comparison:" << stoi(timeTrieVector[1]) << " vs " << stoi(timeHashVector[1]) << endl;
+    double hashTime = stod(timeHashVector[1]); // string to double not int, since time is in microseconds 
+    double trieTime = stod(timeTrieVector[1]);
+    if (hashTime < trieTime) {
+        cout << "The hash table was faster than the trie for adding entries and searching for the user ID." << endl << "Comparison: " << hashTime << " vs " << trieTime << " microseconds" << endl;
+    } else if (hashTime > trieTime) {
+        cout << "The trie was faster than the hash table for adding entries and searching for the user ID." << endl << "Comparison: " << trieTime << " vs " << hashTime << " microseconds" << endl;
     } else {
-        cout << "The hash table and trie had the same performance for adding entries and searching for the user ID." << "Comparison:" << stoi(timeHashVector[1]) << " vs " << stoi(timeTrieVector[1]) << endl;
+        cout << "The hash table and trie had the same performance for adding entries and searching for the user ID." << "Comparison: " << hashTime << " vs " << trieTime << " microseconds" << endl;
     }
 
 
