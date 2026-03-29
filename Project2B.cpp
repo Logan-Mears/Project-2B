@@ -214,16 +214,33 @@ struct Trie {
         // Destructor (Unknown if needed again)
     }
 
+    // Helper function for addEnTrie; fixes out-of-bounds due to using the wrong indexes (forgot about ASCIII numbering)
+    int getIndex(char c) {
+        if (c >= '0' && c <= '9') {
+            return c - '0'; // Map '0'-'9' to 0-9
+        }
+        if (c >= 'a' && c <= 'z') {
+            return c - 'a' + 10; // Map 'a'-'z' to 10-35
+        }
+        if (c >= 'A' && c <= 'Z') {
+            return 36 + c - 'A'; // Map 'A'-'Z' to 36-61
+        }
+        return -1; // Invalid character for  trie 
+    }
+
     void addEnTrie(const string& key, PERSON* pers) {
         TrieNode* currentNode = root;
 
         // Traverse through trie using key characters to find the corresponding nodes
         for (char c : key) {
-            char charIndex = c;
-            if (currentNode->children[charIndex] == nullptr) {
-                currentNode->children[charIndex] = new TrieNode(); // Create new node if it doesn't exist
+            int index = getIndex(c);
+            if (index == -1) {
+                continue; // Skip invalid characters that are not letters or digits (if any?)
             }
-            currentNode = currentNode->children[charIndex]; // Move to the next node
+            if (currentNode->children[index] == nullptr) {
+                currentNode->children[index] = new TrieNode(); // Create new node if it doesn't exist
+            }
+            currentNode = currentNode->children[index]; // Move to the next node
         }
 
         // After traversing the key, mark the end of the ID/key and store the associated PERSON object
