@@ -155,7 +155,7 @@ struct HashTable {
         numEntries++;
 
         // Check load factor and resize if necessary
-        if (numEntries/capacity > 0.75) { // Load factor threshold of 0.75 as rec'd by GfG as cited
+        if ((double)numEntries/capacity > 0.75) { // Load factor threshold of 0.75 as rec'd by GfG as cited, cast as double to avoid integer division
             resize();
         }
     }
@@ -224,7 +224,7 @@ struct Trie {
 
     // Destructor for Trie
     ~Trie() {
-        // Destructor (Unknown if needed again)
+        delete root; // Deleting the root will recursively delete all child nodes due to the destructor in TrieNode (hopefully)
     }
 
     // Helper function for addEnTrie; fixes out-of-bounds due to using the wrong indexes (forgot about ASCIII numbering)
@@ -322,7 +322,7 @@ vector<PERSON*> getCSVContents(const string& filename) {
         if (columns.size() >= 9) {
             // Create a new PERSON object using the parsed columns and add a ptr to it to the vector of people
             PERSON* newPerson = new PERSON(stoi(columns[0]), stoi(columns[1]), columns[2], columns[3], columns[4], columns[5], columns[6], columns[7], columns[8]);
-            people.push_back(new PERSON(newPerson));
+            people.push_back(newPerson);
         }
     }
 
@@ -349,9 +349,9 @@ class Stopwatch {
       last = Clock::now();
     }   
 
-    Stopwatch() noexcept {
-      reset();
-    }   
+    Stopwatch(bool auto_print = false) noexcept : automatic_print(auto_print) { // Edited to stop destructor issues
+        reset();
+    }  
 
     auto time_elapsed() const noexcept {
       return Resolution(Clock::now() - last).count(); // Find the difference between the start and end times 
@@ -443,7 +443,8 @@ int main() {
     // Display results of the search & time taken (if found, print the person's details; if not found, indicate that the user ID was not found)
     cout << "Hash Table Results:" << endl;
     cout << "Person found: " << timeHashVector[0] << endl;
-    cout << "Time taken (seconds): " << stoi(timeHashVector[1])/(10e6) << endl << endl; // Reports in microseconds, so *10^6
+    double timeInSeconds = stod(timeHashVector[1]) / 1000000.0;
+    cout << "Time taken (seconds): " << timeInSeconds << endl;
 
 
 
@@ -455,7 +456,8 @@ int main() {
     // Display results of the search & time taken (if found, print the person's details; if not found, indicate that the user ID was not found)
     cout << "Trie Results:" << endl;
     cout << "Person found: " << timeTrieVector[0] << endl;
-    cout << "Time taken (seconds): " << stoi(timeTrieVector[1])/(10e6) << endl << endl; // Reports in microseconds, so *10^6
+    double timeInSecondsTrie = stod(timeTrieVector[1]) / 1000000.0;
+    cout << "Time taken (seconds): " << timeInSecondsTrie << endl << endl; // Reports in microseconds, so *10^6
 
 
 
