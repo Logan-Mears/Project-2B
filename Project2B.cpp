@@ -3,6 +3,8 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <chrono>
+#include <type_traits>
 using namespace std;
 
 
@@ -277,6 +279,47 @@ vector<PERSON*> getCSVContents(const string& filename) {
 
 
 
+// PERFORMANCE EVALUATION FUNCTION(S) ==========================================================================================================================================
+// Note: Most of this block of code is derived from https://stackoverflow.com/questions/22387586/measure-time-in-c-using-chrono-in-a-simple-way and modified, as cited in the report
+template <typename Resolution = std::chrono::duration<double,std::micro>>
+class Stopwatch {
+  typedef std::chrono::steady_clock Clock;
+  private:
+    std::chrono::time_point<Clock> last;
+    string name;
+    bool automatic_print;
+  public:
+    void reset() noexcept {
+      last = Clock::now();
+    }   
+
+    Stopwatch() noexcept {
+      reset();
+    }   
+
+    auto time_elapsed() const noexcept {
+      return Resolution(Clock::now() - last).count(); // Find the difference between the start and end times 
+    }
+
+    auto operator()() const noexcept {// returns time in Resolution
+      return time_elapsed();
+    }
+
+    void print() const noexcept {
+      std::cout << time_elapsed() << "\n";
+    }
+
+    ~Stopwatch() {
+      if (automatic_print) {
+        print();
+      }
+    }
+};
+
+
+
+
+
 // MAIN FUNCTION / ACTUAL TESTING ==================================================================================================================================================
 int main() {
     // Formatting to make it look pretty (I really don't want to create a separate GUI so will likely use console output for testing and demo purposes)
@@ -303,7 +346,7 @@ int main() {
     // Create and Test ID Lookup Using Hash Table --------------------------------------------------------------------------------------------------------------------------------
     cout << "----- ID Lookup Using Hash Table -----" << endl;
     HashTable newHashTable;
-    // TODO: INSERT CODE TO CALL PERFORMANCE EVALUATION FUNTION HERE
+    Stopwatch sw; 
     // Measure time taken to add all entries to the hash table
     // Measure time taken to search for a specific user ID in the hash table
     // Display results of the search (if found, print the person's details; if not found, indicate that the user ID was not found)
@@ -312,7 +355,7 @@ int main() {
     // Create and Test ID Lookup Using Trie --------------------------------------------------------------------------------------------------------------------------------------
     cout << "----- ID Lookup Using Trie -----" << endl;
     Trie newTrie;
-    // TODO: INSERT CODE TO CALL PERFORMANCE EVALUATION FUNTION HERE
+    Stopwatch sw; 
     // Measure time taken to add all entries to the trie
     // Measure time taken to search for a specific user ID in the trie
     // Display results of the search (if found, print the person's details; if not found, indicate that the user ID was not found)
