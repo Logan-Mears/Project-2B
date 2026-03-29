@@ -144,7 +144,7 @@ struct HashTable {
 
     void addEntry(const string& key, PERSON* pers) {
         // Hash the key to get table index
-        int hashIndex = hashFunc(key);   
+        int hashIndex = hashFunc(key, capacity);   
         HashEntry* currentEntry = table[hashIndex]; 
 
         // Insert new entry at the beginning of the list for the newly hashed index
@@ -164,7 +164,7 @@ struct HashTable {
     // SEARCH IMPLEMENTATION ---------------------------------------------------------------------------------------------------------------------------------------------------
     PERSON* search(const string& key) {
         // Hash the key to get table index
-        int hashIndex = hashFunc(key);
+        int hashIndex = hashFunc(key, capacity);
         HashEntry* currentEntry = table[hashIndex]; 
 
         // Traverse the linked list at the hashed index to find the entry with the matching key
