@@ -288,27 +288,14 @@ vector<PERSON*> getCSVContents(const string& filename) {
         stringstream ss(line);
         string column;
         vector<string> columns;
-        string currentColumn;
-        for (char c : line) {
-            if (c == ',' && !currentColumn.empty()) {
-                columns.push_back(currentColumn);
-                currentColumn.clear();
-            } else {
-                currentColumn += c;
-            }
+        // Add each column to a vector of strings for easier access
+        while (getline(ss, column, ',')) {
+            columns.push_back(column); 
         }
-
-        // Assign column names to each column
         if (columns.size() >= 9) {
-            newPerson.index = std::stoi(columns[0]);      
-            newPerson.userId = std::stoi(columns[1]);     
-            newPerson.first = columns[2];
-            newPerson.last = columns[3];
-            newPerson.sex = columns[4];
-            newPerson.email = columns[5];
-            newPerson.phone = columns[6];
-            newPerson.dob = columns[7];
-            newPerson.occupation = columns[8];
+            // Create a new PERSON object using the parsed columns and add a ptr to it to the vector of people
+            newPerson = PERSON(stoi(columns[0]), stoi(columns[1]), columns[2], columns[3], columns[4], columns[5], columns[6], columns[7], columns[8]);
+            people.push_back(new PERSON(newPerson));
         }
     }
 
