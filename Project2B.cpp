@@ -362,20 +362,37 @@ class Stopwatch {
 
 
 
-// Repositioned from Main: No nesting function definitions permitted ==================================================================================================================================================
+// DATA STRUCTURES MEASURED ==================================================================================================================================================
 // Separate functions to measure time taken for trie operations; somewhat awkward but necessary for how I set up the stopwatch struct I think
-vector<string> hash_measured(HashTable& hashTable) {
+// Format of returned vec: [0] = person's details (if found), [1] = time taken for operations (add + search) in microseconds as a string (for easy printing and comparison with trie results)
+
+vector<string> hash_measured(HashTable& hashTable, string userID, vector<PERSON*>& people) {
     vector<string> hash_results; 
+    // Initiate stopwatch to measure time taken for rest of function to execute; hopefully is ended by the destructor when the function ends
     Stopwatch sw; 
-    // Measure time taken to add all entries to the hash table
-    // Measure time taken to search for a specific user ID in the hash table
+    // Add all entries to the hash table
+    for (PERSON* person : people) {
+        hashTable.addEntry(to_string(person->userId), person);
+    }
+    // Search for a specific user ID in the hash table
+    PERSON* foundPers = hashTable.search(userID);
+    hash_results.push_back(foundPers->first + " " + foundPers->last); // Just for testing to make sure the search is working; will likely want to print more details in the final version
+    hash_results.push_back(to_string(sw())); // Add the time taken for the operations to the results vector; will be used for comparison with trie results
     return hash_results;
 }
 
-vector<string> trie_measured(Trie& trie) {
+vector<string> trie_measured(Trie& trie, string userID, vector<PERSON*>& people) {
+    vector<string> trie_results;
     Stopwatch sw; 
     // Measure time taken to add all entries to the trie
+    for (PERSON* person : people) {
+        trie.addEnTrie(to_string(person->userId), person);
+    }
     // Measure time taken to search for a specific user ID in the trie
+    PERSON* foundPers = trie.search(userID);
+    trie_results.push_back(foundPers->first + " " + foundPers->last); // Ditto
+    trie_results.push_back(to_string(sw())); // Add the time taken for the operations to the results vector; will be used for comparison with hash table results
+    return trie_results;
 }
 
 
@@ -384,7 +401,7 @@ vector<string> trie_measured(Trie& trie) {
 
 // MAIN FUNCTION / ACTUAL TESTING ==================================================================================================================================================
 int main() {
-    // Formatting to make it look pretty (I really don't want to create a separate GUI so will likely use console output for testing and demo purposes)
+    // Formatting to make it look pretty (I really don't have time to create a separate GUI so will likely use console output for testing and demo purposes)
     cout << "----- Personal Detail Lookup System with Data Structure Comparison: Project 2 COP3530 -----" << endl;
     cout << "Hash Tables vs. Tries" << endl << endl << endl;
     cout << "Instructions:"<< endl << "Move a .csv file with the format described in the README.md file into the working directory." << endl 
@@ -408,7 +425,7 @@ int main() {
     // Create and Test ID Lookup Using Hash Table --------------------------------------------------------------------------------------------------------------------------------
     cout << "----- ID Lookup Using Hash Table -----" << endl;
     HashTable newHashTable;
-    vector<string> timeHashVector = hash_measured(newHashTable);
+    vector<string> timeHashVector = hash_measured(newHashTable, userId, people);
     // Display results of the search & time taken (if found, print the person's details; if not found, indicate that the user ID was not found)
 
 
@@ -416,7 +433,7 @@ int main() {
     // Create and Test ID Lookup Using Trie --------------------------------------------------------------------------------------------------------------------------------------
     cout << "----- ID Lookup Using Trie -----" << endl;
     Trie newTrie;
-    vector<string> timeTrieVector = trie_measured(newTrie);
+    vector<string> timeTrieVector = trie_measured(newTrie, userId, people);
     // Display results of the search & time taken (if found, print the person's details; if not found, indicate that the user ID was not found)
 
 
