@@ -300,8 +300,8 @@ vector<PERSON*> getCSVContents(const string& filename) {
 
         // Assign column names to each column
         if (columns.size() >= 9) {
-            newPerson.index = columns[0];      // Error here ************
-            newPerson.userId = columns[1];     // Error here ************
+            newPerson.index = std::stoi(columns[0]);      
+            newPerson.userId = std::stoi(columns[1]);     
             newPerson.first = columns[2];
             newPerson.last = columns[3];
             newPerson.sex = columns[4];
