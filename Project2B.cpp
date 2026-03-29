@@ -86,11 +86,10 @@ struct HashTable {
     int numEntries;           // Number of entries currently in the hash table
     int capacity;             // Total capacity of the hash table
 
-    int hashFunc(const string& key) {
-        // Simple hash function using polynomial rolling hash method: recommended by VS Code
+    int hashFunc(const string& key, int cap) const { // modded to be constant to get right capacity for rehashing
         int hashValue = 0;
         for (char c : key) {
-            hashValue = (hashValue * 31 + c) % capacity; 
+            hashValue = (hashValue * 31 + c) % cap;
         }
         return hashValue;
     }
@@ -103,7 +102,7 @@ struct HashTable {
         for (int i = 0; i < capacity; i++) {
             HashEntry* entry = table[i];
             while (entry != nullptr) {
-                int newHashIndex = hashFunc(entry->key) % newCapacity; 
+                int newHashIndex = hashFunc(entry->key, newCapacity);
                 HashEntry* nextEntry = entry->next; // Store pointer to the next entry BEFORE rehashing
 
                 // Insert the entry into the new table at the new hash index (handling collisions by chaining as described in reference 5 video of the report)
