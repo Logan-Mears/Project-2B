@@ -275,23 +275,22 @@ struct Trie {
 
     // SEARCH IMPLEMENTATION ---------------------------------------------------------------------------------------------------------------------------------------------------
     PERSON* search(const string& key) {
-        TrieNode* currentNode = root;
-
-        // Traverse through trie using key characters to find the corresponding nodes
-        for (char c : key) {
-            char charIndex = c;
-            if (currentNode->children[charIndex] == nullptr) {
-                return nullptr; // Key not found in trie
-            }
-            currentNode = currentNode->children[charIndex]; // If found, move to the next node
+    TrieNode* currentNode = root;
+    for (char c : key) {
+        int index = getIndex(c);
+        if (index == -1) continue; // Skip invalid chars
+        
+        if (index < 0 || index >= 62 || currentNode->children[index] == nullptr) {
+            return nullptr;
         }
-
-        // After traversing the key, check if at a valid end of an ID/key to return the associated PERSON object
-        if (currentNode->isEndID) {
-            return currentNode->pers; // Return pointer to PERSON object if found
-        }
-        return nullptr; // Key not found as a valid ID in trie(?)
+        currentNode = currentNode->children[index];
     }
+    
+    if (currentNode->isEndID) {
+        return currentNode->pers;
+    }
+    return nullptr;
+}
 };
 
 
