@@ -349,6 +349,26 @@ class Stopwatch {
 
 
 
+// Repositioned from Main: No nesting function definitions permitted ==================================================================================================================================================
+// Separate functions to measure time taken for trie operations; somewhat awkward but necessary for how I set up the stopwatch struct I think
+vector<string> hash_measured(HashTable& hashTable) {
+    vector<string> hash_results; 
+    Stopwatch sw; 
+    // Measure time taken to add all entries to the hash table
+    // Measure time taken to search for a specific user ID in the hash table
+    return hash_results;
+}
+
+vector<string> trie_measured(Trie& trie) {
+    Stopwatch sw; 
+    // Measure time taken to add all entries to the trie
+    // Measure time taken to search for a specific user ID in the trie
+}
+
+
+
+
+
 // MAIN FUNCTION / ACTUAL TESTING ==================================================================================================================================================
 int main() {
     // Formatting to make it look pretty (I really don't want to create a separate GUI so will likely use console output for testing and demo purposes)
@@ -373,12 +393,6 @@ int main() {
 
 
     // Create and Test ID Lookup Using Hash Table --------------------------------------------------------------------------------------------------------------------------------
-    vector<string> hash_measured(HashTable& hashTable) {
-        Stopwatch sw; 
-        // Measure time taken to add all entries to the hash table
-        // Measure time taken to search for a specific user ID in the hash table
-    }
-
     cout << "----- ID Lookup Using Hash Table -----" << endl;
     HashTable newHashTable;
     vector<string> timeHashVector = hash_measured(newHashTable);
@@ -387,13 +401,6 @@ int main() {
 
 
     // Create and Test ID Lookup Using Trie --------------------------------------------------------------------------------------------------------------------------------------
-    // Separate function to measure time taken for trie operations; somewhat awkward but hopefully suffices
-    vector<string> trie_measured(Trie& trie) {
-        Stopwatch sw; 
-        // Measure time taken to add all entries to the trie
-        // Measure time taken to search for a specific user ID in the trie
-    }
-    
     cout << "----- ID Lookup Using Trie -----" << endl;
     Trie newTrie;
     vector<string> timeTrieVector = trie_measured(newTrie);
