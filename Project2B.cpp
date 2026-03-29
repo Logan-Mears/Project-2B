@@ -130,7 +130,9 @@ struct HashTable {
         numEntries++;
 
         // Check load factor and resize if necessary
-        
+        if (numEntries/capacity > 0.75) { // Load factor threshold of 0.75 as rec'd by GfG as cited
+            resize();
+        }
     }
 
     
