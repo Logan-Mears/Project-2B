@@ -34,6 +34,19 @@ struct PERSON {
         occupation = o;
     }
 
+    // Default constructor for PERSON struct
+    PERSON() {
+        index = 0;
+        userId = 0;
+        first = "";
+        last = "";
+        sex = "";
+        email = "";
+        phone = "";
+        dob = "";
+        occupation = "";
+    }
+
     // Display (if needed)
     void print() {
         cout << "Index: " << index << endl;
