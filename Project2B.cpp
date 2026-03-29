@@ -429,7 +429,7 @@ int main() {
     // Display results of the search & time taken (if found, print the person's details; if not found, indicate that the user ID was not found)
     cout << "Hash Table Results:" << endl;
     cout << "Person found: " << timeHashVector[0] << endl;
-    cout << "Time taken (seconds): " << stoi(timeHashVector[1])*(10^6) << endl << endl; // Reports in microseconds, so *10^6
+    cout << "Time taken (seconds): " << stoi(timeHashVector[1])*(10e6) << endl << endl; // Reports in microseconds, so *10^6
 
 
 
@@ -441,7 +441,7 @@ int main() {
     // Display results of the search & time taken (if found, print the person's details; if not found, indicate that the user ID was not found)
     cout << "Trie Results:" << endl;
     cout << "Person found: " << timeTrieVector[0] << endl;
-    cout << "Time taken (seconds): " << stoi(timeTrieVector[1])*(10^6) << endl << endl; // Reports in microseconds, so *10^6
+    cout << "Time taken (seconds): " << stoi(timeTrieVector[1])*(10e6) << endl << endl; // Reports in microseconds, so *10^6
 
 
 
