@@ -333,7 +333,7 @@ class Stopwatch {
   private:
     std::chrono::time_point<Clock> last;
     string name;
-    bool automatic_print;
+    bool automatic_print = false;
   public:
     void reset() noexcept {
       last = Clock::now();
