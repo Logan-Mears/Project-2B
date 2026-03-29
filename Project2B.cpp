@@ -310,8 +310,7 @@ vector<PERSON*> getCSVContents(const string& filename) {
     }
     string line;
     getline(file, line); // Skip header line with column names
-
-    // Read each line of the CSV file and create PERSON objects using each row's data
+    // Read each line of the CSV  and create PERSOn objects using each row's data
     while (getline(file, line)) {
         // Use stringstream to parse the line into individual fields based on comma delimiters
         stringstream ss(line);
@@ -322,9 +321,33 @@ vector<PERSON*> getCSVContents(const string& filename) {
             columns.push_back(column); 
         }
         if (columns.size() >= 9) {
-            // Create a new PERSON object using the parsed columns and add a ptr to it to the vector of people
-            PERSON* newPerson = new PERSON(stoi(columns[0]), stoi(columns[1]), columns[2], columns[3], columns[4], columns[5], columns[6], columns[7], columns[8]);
-            people.push_back(newPerson);
+            try {
+                // Check if index and userId are empty or contain non-numeric characters
+                int idx = 0;
+                int uid = 0;
+                // Handle empty or invalid index
+                if (!columns[0].empty()) {
+                    idx = stoi(columns[0]);
+                }
+                // Handle empty or invalid userId
+                if (!columns[1].empty()) {
+                    uid = stoi(columns[1]);
+                }
+                // Create a new PERSON object using the parsed columns and add a ptr to it to the vector of people
+                PERSON* newPerson = new PERSON(idx, uid, columns[2], columns[3], columns[4], 
+                                               columns[5], columns[6], columns[7], columns[8]);
+                people.push_back(newPerson);
+            }
+            catch (const invalid_argument& e) {
+                // Skip rows with invalid integer data
+                cerr << "Skipping row with invalid data: " << line << endl;
+                continue;
+            }
+            catch (const out_of_range& e) {
+                // Skip rows with integer out of range
+                cerr << "Skipping row with out of range value: " << line << endl;
+                continue;
+            }
         }
     }
 
