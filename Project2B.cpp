@@ -344,21 +344,33 @@ int main() {
 
 
     // Create and Test ID Lookup Using Hash Table --------------------------------------------------------------------------------------------------------------------------------
+    vector<string> hash_measured(HashTable& hashTable) {
+        Stopwatch sw; 
+        // Measure time taken to add all entries to the hash table
+        // Measure time taken to search for a specific user ID in the hash table
+    }
+
     cout << "----- ID Lookup Using Hash Table -----" << endl;
     HashTable newHashTable;
-    Stopwatch sw; 
-    // Measure time taken to add all entries to the hash table
-    // Measure time taken to search for a specific user ID in the hash table
-    // Display results of the search (if found, print the person's details; if not found, indicate that the user ID was not found)
+    vector<string> timeHashVector = hash_measured(newHashTable);
+    // Display results of the search & time taken (if found, print the person's details; if not found, indicate that the user ID was not found)
+
 
 
     // Create and Test ID Lookup Using Trie --------------------------------------------------------------------------------------------------------------------------------------
+    // Separate function to measure time taken for trie operations; somewhat awkward but hopefully suffices
+    vector<string> trie_measured(Trie& trie) {
+        Stopwatch sw; 
+        // Measure time taken to add all entries to the trie
+        // Measure time taken to search for a specific user ID in the trie
+    }
+    
     cout << "----- ID Lookup Using Trie -----" << endl;
     Trie newTrie;
-    Stopwatch sw; 
-    // Measure time taken to add all entries to the trie
-    // Measure time taken to search for a specific user ID in the trie
-    // Display results of the search (if found, print the person's details; if not found, indicate that the user ID was not found)
+    vector<string> timeTrieVector = trie_measured(newTrie);
+    // Display results of the search & time taken (if found, print the person's details; if not found, indicate that the user ID was not found)
+
+
 
 
     // Comparison of Hash Table and Trie Performance -----------------------------------------------------------------------------------------------------------------------------
